@@ -2,17 +2,18 @@ package com.net.service;
 
 import java.util.List;
 
+import com.net.dto.UserDto;
 import com.net.entity.User;
 
 public interface UserService {
 
-	User createuser(User user);
+	UserDto createuser(UserDto userdto);
 	
-	User getUserById(Long id);
+	UserDto getUserById(Long id);
 	
-	List<User> getAllUsers();
+	List<UserDto> getAllUsers();
 	
-	User updateUser(User user);
+	UserDto updateUser(UserDto userdto);
 	
 	void deleteuser(Long userId);
 }
