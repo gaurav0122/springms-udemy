@@ -1,5 +1,8 @@
 package com.net.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.net.entity.User;
@@ -20,6 +23,36 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User createuser(User user) {
 		return userRepository.save(user);
+	}
+
+	@Override
+	public User getUserById(Long id) {
+		Optional<User> user = userRepository.findById(id);
+		return user.get();
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+		List<User> list = userRepository.findAll();
+		return list;
+	}
+
+	@Override
+	public User updateUser(User user) {
+		
+		User existingUser = userRepository.findById(user.getId()).get();
+		existingUser.setFirstName(user.getFirstName());
+		existingUser.setLastName(user.getLastName());
+		existingUser.setEmail(user.getEmail());
+		User updatedUser = userRepository.save(user);
+		
+		return updatedUser;
+	}
+
+	@Override
+	public void deleteuser(Long userId) {
+		userRepository.deleteById(userId);
+		
 	}
 
 }
