@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.net.dto.UserDto;
 import com.net.entity.User;
+import com.net.exception.EmailNotFoundException;
+import com.net.exception.ResourceNotFoundException;
 import com.net.mapper.MapStructMapper;
 import com.net.mapper.UserMapper;
 import com.net.repository.UserRepository;
@@ -29,6 +31,13 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public UserDto createuser(UserDto userdto) {
+		
+		Optional<User> optionaluser = userRepository.findByEmail(userdto.getEmail());
+		if(optionaluser.isPresent()) {
+			throw new EmailNotFoundException("Email already exists for user.");
+		}
+		
+		
 		//using my custom mapper
 //		User user = UserMapper.userDtotoUser(userdto);
 		
@@ -47,7 +56,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserDto getUserById(Long id) {
 		
-		Optional<User> user = userRepository.findById(id);
+		User user = userRepository.findById(id).orElseThrow(
+				()-> new ResourceNotFoundException("User", "id", id)
+				);
 		//ussing custom mapper
 //		UserDto userreturn = UserMapper.usertoUserDto(user.get());
 		
@@ -55,7 +66,7 @@ public class UserServiceImpl implements UserService{
 //		UserDto userreturn = modelMapper.map(user.get(), UserDto.class);
 		
 		//using mapstruct
-		UserDto userreturn = MapStructMapper.Mapper.mapToUserDto(user.get());
+		UserDto userreturn = MapStructMapper.Mapper.mapToUserDto(user);
 		
 		return userreturn;
 	}
@@ -80,7 +91,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserDto updateUser(UserDto user) {
 		
-		User existingUser = userRepository.findById(user.getId()).get();
+		User existingUser = userRepository.findById(user.getId()).orElseThrow(
+				()-> new ResourceNotFoundException("User", "id", user.getId())
+				);
 		
 		existingUser.setFirstName(user.getFirstName());
 		existingUser.setLastName(user.getLastName());
@@ -99,6 +112,10 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void deleteuser(Long userId) {
+		userRepository.findById(userId).orElseThrow(
+				()-> new ResourceNotFoundException("User", "id", userId)
+				);
+		
 		userRepository.deleteById(userId);
 		
 	}
