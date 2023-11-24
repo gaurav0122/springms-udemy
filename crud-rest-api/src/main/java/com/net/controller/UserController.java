@@ -24,6 +24,8 @@ import com.net.exception.ErrorDetails;
 import com.net.exception.ResourceNotFoundException;
 import com.net.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -37,7 +39,7 @@ public class UserController {
 	
 	//build rest api to create user
 	@PostMapping
-	public ResponseEntity<UserDto> postUser(@RequestBody UserDto user) {
+	public ResponseEntity<UserDto> postUser(@Valid @RequestBody UserDto user) {
 		return new ResponseEntity<UserDto>(service.createuser(user), HttpStatus.CREATED);
 	}
 	
@@ -58,7 +60,7 @@ public class UserController {
 	
 	//build update user
 	@PutMapping("{id}")
-	public ResponseEntity<UserDto> putUpdateStudent(@PathVariable("id") Long id ,@RequestBody UserDto user) {
+	public ResponseEntity<UserDto> putUpdateStudent(@PathVariable("id") Long id ,@Valid @RequestBody UserDto user) {
 		user.setId(id);
 		UserDto updatedUser = service.updateUser(user);
 		
