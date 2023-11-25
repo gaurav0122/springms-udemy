@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.department.dto.DepartmentDto;
 import com.department.entity.Department;
+import com.department.exception.DepartmentCodeAlreadyPresentException;
+import com.department.exception.ResourceNotFoundException;
 import com.department.mapper.AutoDepartmentMapper;
 import com.department.repository.DepartmentRepository;
 
@@ -30,6 +32,13 @@ public class DepartmentServiceImpl implements DepartmentService{
 //		department.setDepartmentName(departmentDto.getDepartmentName());
 		
 //		Department department = modelMapper.map(departmentDto, Department.class);
+		if(departmentRepository.findByDepartmentCode(departmentDto.getDepartmentCode())!=null) {
+			throw new DepartmentCodeAlreadyPresentException("Dedpartment with code "+departmentDto.getDepartmentCode()+" is already present");
+		}
+		
+		if(departmentRepository.findByDepartmentName(departmentDto.getDepartmentCode())!=null) {
+			throw new DepartmentCodeAlreadyPresentException("Dedpartment with name "+departmentDto.getDepartmentCode()+" is already present");
+		}
 		
 		Department department = AutoDepartmentMapper.MAPPER.mapToDepartment(departmentDto);
 		
@@ -51,6 +60,10 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public DepartmentDto getDepartmentByCode(String departmentCode) {
 		Department department = departmentRepository.findByDepartmentCode(departmentCode);
+		if(department==null) {
+			throw new ResourceNotFoundException("Department", "Department id", departmentCode);
+					
+		}
 //		DepartmentDto departmentDto= new DepartmentDto(
 //				department.getId(),
 //				department.getDepartmentName(),
@@ -67,7 +80,9 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 	@Override
 	public DepartmentDto getDepartmentById(Long departmentId) {
-		Department department = departmentRepository.findById(departmentId).get();
+		Department department = departmentRepository.findById(departmentId).orElseThrow(
+				()-> new ResourceNotFoundException("Department", "Department id", departmentId)
+				);
 //		DepartmentDto departmentDto = new DepartmentDto(
 //				department.getId(),
 //				department.getDepartmentName(),
@@ -100,7 +115,9 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 	@Override
 	public DepartmentDto updateDepartment(DepartmentDto departmentDto) {
-		Department department = departmentRepository.findById(departmentDto.getId()).get();
+		Department department = departmentRepository.findById(departmentDto.getId()).orElseThrow(
+				()-> new ResourceNotFoundException("Department", "Department id", departmentDto.getId())
+				);
 		
 		department.setDepartmentCode(departmentDto.getDepartmentCode());
 		department.setDepartmentDescription(departmentDto.getDepartmentDescription());
@@ -121,7 +138,9 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 	@Override
 	public void deleteDepartmentById(Long departmentId) {
-		
+		departmentRepository.findById(departmentId).orElseThrow(
+				()-> new ResourceNotFoundException("Department", "Department id", departmentId)
+				);
 		departmentRepository.deleteById(departmentId);
 		
 	}

@@ -8,5 +8,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Long>{
 
 	Department findByDepartmentCode(String departmentCode);
 
+	Department findByDepartmentName(String departmentCode);
+
 	
 }

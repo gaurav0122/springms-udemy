@@ -1,9 +1,13 @@
 package com.employee.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.employee.dto.EmployeeDto;
 import com.employee.entity.Employee;
+import com.employee.exception.EmailAlreadyPresentException;
+import com.employee.exception.ResourceNotFoundException;
 import com.employee.mapper.AutoEmployeeMapper;
 import com.employee.repository.EmployeeRepository;
 
@@ -23,6 +27,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 //		employee.setFirstName(employeeDto.getFirstName());
 //		employee.setLastName(employeeDto.getLastName());
 		
+		Optional<Employee> checkEmployee = employeeRepository.findByEmail(employeeDto.getEmail());
+		
+		if(checkEmployee.isPresent()) {
+			throw new EmailAlreadyPresentException(employeeDto.getEmail());
+		}
+		
 		Employee employee = AutoEmployeeMapper.MAPPER.maptoEmployee(employeeDto);
 		
 		Employee savedEmployee = employeeRepository.save(employee);
@@ -40,7 +50,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Override
 	public EmployeeDto getEmployeeById(Long employeeId) {
-		Employee employee = employeeRepository.findById(employeeId).get();
+		Employee employee = employeeRepository.findById(employeeId)
+										.orElseThrow(()-> new ResourceNotFoundException("Employee", "Employee id", employeeId));
 //		EmployeeDto employeeDtoReturn = new EmployeeDto(
 //				employee.getId(),
 //				employee.getFirstName(),
