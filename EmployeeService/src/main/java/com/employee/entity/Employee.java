@@ -1,6 +1,4 @@
-package com.net.entity;
-
-import org.hibernate.annotations.CollectionId;
+package com.employee.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,8 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +16,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "employees")
+public class Employee {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +32,5 @@ public class User {
 	
 	@Column(nullable = false,unique = true)
 	private String email;
+
 }
