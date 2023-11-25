@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.department.dto.DepartmentDto;
 import com.department.service.DepartmentService;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/api/depart")
+@AllArgsConstructor
 public class DepartmentController {
 
 	private DepartmentService departmentService;
