@@ -2,8 +2,13 @@ package com.employee.service;
 
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import com.employee.dto.ApiResponseEmployee;
+import com.employee.dto.DepartmentDto;
 import com.employee.dto.EmployeeDto;
 import com.employee.entity.Employee;
 import com.employee.exception.EmailAlreadyPresentException;
@@ -18,6 +23,10 @@ import lombok.AllArgsConstructor;
 public class EmployeeServiceImpl implements EmployeeService{
 
 	private EmployeeRepository employeeRepository;
+	
+//	private RestTemplate restTemplate;
+//	private WebClient webClient;
+	private FeignApiClient feignApiClient;
 	
 	@Override
 	public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
@@ -49,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public EmployeeDto getEmployeeById(Long employeeId) {
+	public ApiResponseEmployee getEmployeeById(Long employeeId) {
 		Employee employee = employeeRepository.findById(employeeId)
 										.orElseThrow(()-> new ResourceNotFoundException("Employee", "Employee id", employeeId));
 //		EmployeeDto employeeDtoReturn = new EmployeeDto(
@@ -59,7 +68,21 @@ public class EmployeeServiceImpl implements EmployeeService{
 //				employee.getEmail()
 //			);
 		EmployeeDto employeeDtoReturn = AutoEmployeeMapper.MAPPER.maptoEmployeeDto(employee);
-		return employeeDtoReturn;
+		
+//		ResponseEntity<DepartmentDto> response = restTemplate.getForEntity("http://localhost:8080/api/depart/bycode/"+employeeDtoReturn.getDepartmentCode(), DepartmentDto.class);
+//		
+//		DepartmentDto departmentDto = response.getBody();
+		
+//		DepartmentDto departmentDto = webClient.get()
+//			.uri("http://localhost:8080/api/depart/bycode/"+employeeDtoReturn.getDepartmentCode())
+//			.retrieve()
+//			.bodyToMono(DepartmentDto.class)
+//			.block();
+//		
+		DepartmentDto departmentDto = feignApiClient.getDepartmentById(employeeDtoReturn.getDepartmentCode());
+		
+		
+		return new ApiResponseEmployee(employeeDtoReturn,departmentDto);
 	}
 
 }
