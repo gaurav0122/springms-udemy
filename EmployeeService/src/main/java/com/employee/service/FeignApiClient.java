@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.employee.dto.DepartmentDto;
 
 
-@FeignClient(url = "http://localhost:8080",value = "DEPARTMENT-SERVICE")
+//@FeignClient(url = "http://localhost:8080",value = "DEPARTMENT-SERVICE")
+@FeignClient(name = "DEPARTMENT-SERVICE")
 public interface FeignApiClient {
 
 	@GetMapping("/api/depart/bycode/{code}")
