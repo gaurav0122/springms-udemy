@@ -1,7 +1,11 @@
 package com.employee.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -10,6 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.employee.dto.ApiResponseEmployee;
 import com.employee.dto.DepartmentDto;
 import com.employee.dto.EmployeeDto;
+import com.employee.dto.OrganizationDto;
 import com.employee.entity.Employee;
 import com.employee.exception.EmailAlreadyPresentException;
 import com.employee.exception.ResourceNotFoundException;
@@ -25,6 +30,8 @@ import lombok.AllArgsConstructor;
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private EmployeeRepository employeeRepository;
+	
+	private static Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
 //	private RestTemplate restTemplate;
 	private WebClient webClient;
@@ -63,6 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Retry(name = "${spring.application.name}", fallbackMethod = "getDefaultDepartmentResponse")
 	@Override
 	public ApiResponseEmployee getEmployeeById(Long employeeId) {
+		logger.trace("get employee by code()");
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee", "Employee id", employeeId));
 //		EmployeeDto employeeDtoReturn = new EmployeeDto(
@@ -76,14 +84,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 //		ResponseEntity<DepartmentDto> response = restTemplate.getForEntity("http://localhost:8080/api/depart/bycode/"+employeeDtoReturn.getDepartmentCode(), DepartmentDto.class);
 //		
 //		DepartmentDto departmentDto = response.getBody();
-
+		System.out.println(employeeDtoReturn.getDepartmentCode() + employeeDtoReturn.getOrganizationCode());
 		DepartmentDto departmentDto = webClient.get()
 				.uri("http://localhost:8080/api/depart/bycode/" + employeeDtoReturn.getDepartmentCode()).retrieve()
 				.bodyToMono(DepartmentDto.class).block();
+		
+		OrganizationDto organizationDto = webClient.get()
+				.uri("http://localhost:8083/api/organizations/" + employeeDtoReturn.getOrganizationCode()).retrieve()
+				.bodyToMono(OrganizationDto.class).block();
 
 //		DepartmentDto departmentDto = feignApiClient.getDepartmentById(employeeDtoReturn.getDepartmentCode());
 
-		return new ApiResponseEmployee(employeeDtoReturn, departmentDto);
+		return new ApiResponseEmployee(employeeDtoReturn, departmentDto, organizationDto);
 	}
 
 	public ApiResponseEmployee getDefaultDepartmentResponse(Long employeeId, Exception ex) {
@@ -101,8 +113,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 //				.bodyToMono(DepartmentDto.class).block();
 		
 		DepartmentDto departmentDto = new DepartmentDto(12L, "defaultDepartmentName", "Default Description", "DD01");
+		OrganizationDto organizationDto = new OrganizationDto(12L, "defaultOrgName", "Default Description", "DD01",LocalDateTime.now());
 		
 		//DepartmentDto departmentDto = feignApiClient.getDepartmentById(employeeDtoReturn.getDepartmentCode());
-		return new ApiResponseEmployee(employeeDtoReturn, departmentDto);
+		return new ApiResponseEmployee(employeeDtoReturn, departmentDto,organizationDto);
 	}
 }

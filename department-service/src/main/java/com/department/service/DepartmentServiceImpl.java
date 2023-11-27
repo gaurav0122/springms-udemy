@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.department.dto.DepartmentDto;
@@ -22,6 +24,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	private DepartmentRepository departmentRepository;
 	
 	private ModelMapper modelMapper;
+	
+	private static Logger logger = LoggerFactory.getLogger(DepartmentServiceImpl.class);
 	
 	
 	@Override
@@ -59,6 +63,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	
 	@Override
 	public DepartmentDto getDepartmentByCode(String departmentCode) {
+		logger.trace("get drapartment by code()");
 		Department department = departmentRepository.findByDepartmentCode(departmentCode);
 		if(department==null) {
 			throw new ResourceNotFoundException("Department", "Department id", departmentCode);
