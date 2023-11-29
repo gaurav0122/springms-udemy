@@ -66,8 +66,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDtoReturn;
 	}
 
-//	@CircuitBreaker(name = "${spring.application.name}", fallbackMethod = "getDefaultDepartmentResponse")
-	@Retry(name = "${spring.application.name}", fallbackMethod = "getDefaultDepartmentResponse")
+	@CircuitBreaker(name = "${spring.application.name}", fallbackMethod = "getDefaultDepartmentResponse")
+//	@Retry(name = "${spring.application.name}", fallbackMethod = "getDefaultDepartmentResponse")
 	@Override
 	public ApiResponseEmployee getEmployeeById(Long employeeId) {
 		logger.trace("get employee by code()");
