@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.user.dto.UserAllTask;
 import com.user.dto.UserDto;
 import com.user.service.UserService;
 
@@ -35,6 +36,12 @@ public class UserController {
 		
 		return new ResponseEntity<>(saveduser,HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/task/all/{userId}")
+	public ResponseEntity<UserAllTask> getAllTasksAssigned(@PathVariable int userId){
+		UserAllTask userAllTask = userService.getAllTask(userId);
+		return ResponseEntity.ok(userAllTask);
 	}
 	
 	@GetMapping("/{id}")

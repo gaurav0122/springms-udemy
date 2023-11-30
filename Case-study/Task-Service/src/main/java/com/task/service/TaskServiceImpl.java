@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.task.dto.CourseDto;
+import com.task.dto.TaskCourseDto;
 import com.task.dto.TaskDto;
 import com.task.dto.UserDto;
 import com.task.dto.UserRole;
@@ -30,7 +31,7 @@ public class TaskServiceImpl implements TaskService {
 	public TaskDto addTask(TaskDto taskDto) {
 		UserDto user = getUserByWEbCient(taskDto.getUserId());
 		if (user.getRole().equals(UserRole.ADMIN)) {
-			throw new RuntimeException("Admin cannnot be enrroled to course");
+			throw new RuntimeException("Admin cannnot be enrolled to course");
 		}
 		getCourseByWEbCient(taskDto.getCourseId());
 		Task task = modelMapper.map(taskDto, Task.class);
@@ -39,11 +40,15 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<TaskDto> getTaskListByUserId(int userId) {
+	public List<TaskCourseDto> getTaskListByUserId(int userId) {
 		
 		List<Task> listTask = taskRepository.findByUserId(userId);
 		
-		return listTask.stream().map((task)->modelMapper.map(task, TaskDto.class))
+		return listTask.stream().map((task)->
+				new TaskCourseDto(task.getId(), userId,getCourseByWEbCient(task.getCourseId()) ,
+						task.getStartdate(), task.getEndDate(), task.getHoursADay()) 
+				
+				)
 				.collect(Collectors.toList());
 		
 	}
@@ -61,11 +66,16 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	private CourseDto getCourseByWEbCient(int courseId) {
-
-		CourseDto dto = webClient.get()
-				.uri("http://localhost:8082/api/course/" + courseId)
-				.retrieve()
-				.bodyToMono(CourseDto.class).block();
+		CourseDto dto;
+		try {
+			dto = webClient.get()
+					.uri("http://localhost:8082/api/course/" + courseId)
+					.retrieve()
+					.bodyToMono(CourseDto.class).block();
+		}catch(Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		
 
 		return dto;
 

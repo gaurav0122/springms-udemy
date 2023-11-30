@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.task.dto.TaskCourseDto;
 import com.task.dto.TaskDto;
 import com.task.service.TaskService;
 
@@ -39,9 +40,9 @@ public class TaskController {
 	}
 	
 	@GetMapping("/all/{userId}")
-public ResponseEntity<List<TaskDto>> getAllTaskByUserId(@PathVariable int userId) {
+public ResponseEntity<List<TaskCourseDto>> getAllTaskByUserId(@PathVariable int userId) {
 		
-		List<TaskDto> savedTask = taskService.getTaskListByUserId(userId);
+		List<TaskCourseDto> savedTask = taskService.getTaskListByUserId(userId);
 		
 		return new ResponseEntity<>(savedTask,HttpStatus.OK);
 		

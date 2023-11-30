@@ -1,10 +1,15 @@
 package com.user.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.user.dto.TaskCourseDto;
+import com.user.dto.UserAllTask;
 import com.user.dto.UserDto;
 import com.user.entity.User;
 import com.user.mapper.UserMapper;
@@ -18,6 +23,8 @@ public class UserServiceimpl implements UserService{
 
 	private UserRepository userRepository;
 	
+	private RestTemplate restTemplate;
+	
 	@Override
 	public UserDto save(UserDto UserDto) {
 		
@@ -25,6 +32,17 @@ public class UserServiceimpl implements UserService{
 		User savedUser = userRepository.save(user);
 		return UserMapper.userToUserDto(savedUser);
 	}
+	
+
+	@Override
+	public UserAllTask getAllTask(int userID) {
+		UserDto user = getUserById(userID);
+		ResponseEntity<TaskCourseDto[]> taskCourse= restTemplate.getForEntity("http://localhost:8083/api/task/all/"+userID, TaskCourseDto[].class); 
+		List<TaskCourseDto> listTaskCourse = Arrays.asList( taskCourse.getBody());
+		UserAllTask userAllTask = new UserAllTask(userID, user.getName(), user.getEmailId(), user.getRole(), listTaskCourse);
+		return userAllTask;
+	}
+	
 
 	@Override
 	public UserDto getUserById(int id) {
@@ -54,5 +72,5 @@ public class UserServiceimpl implements UserService{
 		}
 		return listDto;
 	}
-	
+
 }
