@@ -44,6 +44,13 @@ public class UserController {
 		return ResponseEntity.ok(userAllTask);
 	}
 	
+	@GetMapping("/task/all")
+	public ResponseEntity<List<UserAllTask>> getAllTasksAssignedForAllMentors(){
+		List<UserAllTask> userAllTask = userService.getAllTaskForAllMentors();
+		return ResponseEntity.ok(userAllTask);
+	}
+	
+	
 	@GetMapping("/{id}")
 	public  ResponseEntity<UserDto>  getuserById(@PathVariable int id) {
 		logger.info("Get user By id method invoked");

@@ -19,4 +19,6 @@ public interface UserService {
 	public void deleteUserById(int id);
 
 	public List<UserDto> getAllUser();
+
+	public List<UserAllTask> getAllTaskForAllMentors();
 }
