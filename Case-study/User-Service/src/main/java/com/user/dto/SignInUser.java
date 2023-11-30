@@ -8,18 +8,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDto {
-	
-	private int userId;
-	
-	private String name;
+public class SignInUser {
 	
 	private String emailId;
 	
-	private UserRole role;
+	private String password;
 	
+	private UserRole role;
 }

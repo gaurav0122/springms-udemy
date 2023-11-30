@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.user.dto.PostUserDto;
+import com.user.dto.SignInUser;
 import com.user.dto.UserAllTask;
 import com.user.dto.UserDto;
 import com.user.service.UserService;
@@ -30,12 +32,18 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping
-	public ResponseEntity<UserDto> postUser(@RequestBody UserDto userDto) {
+	public ResponseEntity<UserDto> postUser(@RequestBody PostUserDto userDto) {
 		
 		UserDto saveduser = userService.save(userDto);
 		
 		return new ResponseEntity<>(saveduser,HttpStatus.OK);
 		
+	}
+	
+	@PostMapping("/signup")
+	public ResponseEntity<String> signUp(@RequestBody SignInUser signInUser){
+		String ret = userService.signin(signInUser);
+		return new ResponseEntity<>(ret,HttpStatus.OK);
 	}
 	
 	@GetMapping("/task/all/{userId}")

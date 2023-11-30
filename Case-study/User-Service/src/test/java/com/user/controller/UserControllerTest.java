@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.user.dto.PostUserDto;
 import com.user.dto.UserDto;
 import com.user.entity.UserRole;
 import com.user.service.UserService;
@@ -33,12 +34,17 @@ class UserControllerTest {
 	
 	@Test
 	void testPostStudent() throws JsonProcessingException, Exception {
-		UserDto requestDto = new UserDto();
+		PostUserDto requestDto = new PostUserDto();
 		requestDto.setName("name");
 		requestDto.setEmailId("email");
 		requestDto.setRole(UserRole.ADMIN);
 		
-		when(userService.save(requestDto)).thenReturn(requestDto);
+		UserDto returnDto = new UserDto();
+		returnDto.setName("name");
+		returnDto.setEmailId("email");
+		returnDto.setRole(UserRole.ADMIN);
+		
+		when(userService.save(requestDto)).thenReturn(returnDto);
 		
 		mockmvc.perform(MockMvcRequestBuilders.post("/api/user")
 							.content(mapper.writeValueAsString(requestDto))

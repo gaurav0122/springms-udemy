@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.user.dto.PostUserDto;
+import com.user.dto.SignInUser;
 import com.user.dto.TaskCourseDto;
 import com.user.dto.UserAllTask;
 import com.user.dto.UserDto;
@@ -30,9 +32,9 @@ public class UserServiceimpl implements UserService{
 	private RestTemplate restTemplate;
 	
 	@Override
-	public UserDto save(UserDto UserDto) {
+	public UserDto save(PostUserDto UserDto) {
 		
-		User user = UserMapper.userDtoToUser(UserDto);
+		User user = UserMapper.PostUserDtoToUser(UserDto);
 		User savedUser = userRepository.save(user);
 		return UserMapper.userToUserDto(savedUser);
 	}
@@ -91,6 +93,21 @@ public class UserServiceimpl implements UserService{
 			listDto.add(UserMapper.userToUserDto(u));
 		}
 		return listDto;
+	}
+
+
+	@Override
+	public String signin(SignInUser signInUser) {
+		System.out.println(signInUser.getEmailId());
+		User user = userRepository.findByEmailId(signInUser.getEmailId());
+		System.out.println(user);
+		if(user==null) {
+			return "User Not Found With these email";
+		}
+		if(user.getRole().equals(signInUser.getRole()) && user.getPassword().equals(signInUser.getPassword()) && user.getEmailId().equals(signInUser.getEmailId())) {
+			return "true";
+		}
+		return "Invalid";
 	}
 
 
