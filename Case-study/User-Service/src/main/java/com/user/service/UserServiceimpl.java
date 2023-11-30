@@ -14,6 +14,7 @@ import com.user.dto.UserAllTask;
 import com.user.dto.UserDto;
 import com.user.entity.User;
 import com.user.entity.UserRole;
+import com.user.exception.AdminGetTaskException;
 import com.user.exception.UserNotFoundException;
 import com.user.mapper.UserMapper;
 import com.user.repository.UserRepository;
@@ -40,6 +41,9 @@ public class UserServiceimpl implements UserService{
 	@Override
 	public UserAllTask getAllTask(int userID) {
 		UserDto user = getUserById(userID);
+		if(user.getRole().equals(UserRole.ADMIN)) {
+			throw new AdminGetTaskException("Admin Dont have any tasks..");
+		}
 		ResponseEntity<TaskCourseDto[]> taskCourse= restTemplate.getForEntity("http://localhost:8083/api/task/all/"+userID, TaskCourseDto[].class); 
 		List<TaskCourseDto> listTaskCourse = Arrays.asList( taskCourse.getBody());
 		UserAllTask userAllTask = new UserAllTask(userID, user.getName(), user.getEmailId(), user.getRole(), listTaskCourse);

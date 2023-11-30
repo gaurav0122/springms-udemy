@@ -12,4 +12,16 @@ public class ExceptionHandler {
 	public ResponseEntity<String> handleUserNotFoundEx(UserNotFoundException ex){
 		return new ResponseEntity<String>(ex.getMessage(),HttpStatus.BAD_REQUEST);
 	}
+	
+
+	@org.springframework.web.bind.annotation.ExceptionHandler(AdminGetTaskException.class)
+	public ResponseEntity<String> handleUserNotFoundEx(AdminGetTaskException ex){
+		return new ResponseEntity<String>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+	}
+	
+
+	@org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+	public ResponseEntity<String> handleGlobalException(Exception ex){
+		return new ResponseEntity<String>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+	}
 }
