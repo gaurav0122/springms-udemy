@@ -14,7 +14,7 @@ export class UserService {
 
 
   constructor(private http: HttpClient) { 
-    this.getAllMentorsApi="http://localhost:8081/api/user/all/mentor";
+    this.getAllMentorsApi="http://localhost:8081/api/user/all/mentor/report";
     this.getAllTaskByUserIdApi="http://localhost:8081/api/user/task/all/";
     this.getAllCoursesApi="http://localhost:8082/api/course/all";
     this.postMentorApi="http://localhost:8081/api/user";
