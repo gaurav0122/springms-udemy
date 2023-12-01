@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -18,14 +20,30 @@ import com.task.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class TaskServiceImpl implements TaskService {
+	
+	@Value("${rabbitmq.exchange.name}")
+	private String exchange;
+	
+	@Value("${rabbitmq.routing.key}")
+	private String routingKey;
 
 	private TaskRepository taskRepository;
 
 	private WebClient webClient;
 
 	private ModelMapper modelMapper;
+	
+	private RabbitTemplate rabbitTemplate;
+
+	public TaskServiceImpl(TaskRepository taskRepository, WebClient webClient, ModelMapper modelMapper,
+			RabbitTemplate rabbitTemplate) {
+		super();
+		this.taskRepository = taskRepository;
+		this.webClient = webClient;
+		this.modelMapper = modelMapper;
+		this.rabbitTemplate = rabbitTemplate;
+	}
 
 	@Override
 	public TaskDto addTask(TaskDto taskDto) {
@@ -33,9 +51,10 @@ public class TaskServiceImpl implements TaskService {
 		if (user.getRole().equals(UserRole.ADMIN)) {
 			throw new RuntimeException("Admin cannnot be enrolled to course");
 		}
-		getCourseByWEbCient(taskDto.getCourseId());
+		CourseDto dto = getCourseByWEbCient(taskDto.getCourseId());
 		Task task = modelMapper.map(taskDto, Task.class);
 		Task savedTask = taskRepository.save(task);
+		rabbitTemplate.convertAndSend(exchange, routingKey, String .format("Task added for %s user with course name %s", user.getName(), dto.getCoursename()));
 		return modelMapper.map(savedTask, TaskDto.class);
 	}
 
