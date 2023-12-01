@@ -2,6 +2,7 @@ package com.user.mapper;
 
 import com.user.dto.PostUserDto;
 import com.user.dto.UserDto;
+import com.user.dto.UserDtoReport;
 import com.user.entity.User;
 
 public class UserMapper {
@@ -16,5 +17,9 @@ public class UserMapper {
 	
 	public static UserDto userToUserDto(User user) {
 		return new UserDto(user.getUserId(), user.getName(), user.getEmailId(), user.getRole());
+	}
+	
+	public static UserDtoReport userDtoToUserDtoReport(UserDto user) {
+		return new UserDtoReport(user.getUserId(), user.getName(), user.getEmailId(), user.getRole(),0,0);
 	}
 }

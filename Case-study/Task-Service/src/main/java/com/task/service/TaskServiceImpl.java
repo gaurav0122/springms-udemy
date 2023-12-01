@@ -59,6 +59,15 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	public List<TaskDto> getTaskListByUserIdReport(int userId) {
+		List<Task> listTask = taskRepository.findByUserId(userId);
+		return listTask.stream().map( (m)->modelMapper.map(m, TaskDto.class)).collect(Collectors.toList());
+		
+	}
+
+	
+	
+	@Override
 	public List<TaskCourseDto> getTaskListByUserId(int userId) {
 		
 		List<Task> listTask = taskRepository.findByUserId(userId);

@@ -7,6 +7,7 @@ import com.user.dto.SignInUser;
 import com.user.dto.TaskCourseDto;
 import com.user.dto.UserAllTask;
 import com.user.dto.UserDto;
+import com.user.dto.UserDtoReport;
 
 public interface UserService {
 	
@@ -27,4 +28,6 @@ public interface UserService {
 	public String signin(SignInUser signInUser);
 
 	public List<UserDto> getAllMentors();
+
+	public List<UserDtoReport> getAllMentorsWithReport();
 }

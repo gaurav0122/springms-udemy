@@ -12,8 +12,10 @@ import org.springframework.web.client.RestTemplate;
 import com.user.dto.PostUserDto;
 import com.user.dto.SignInUser;
 import com.user.dto.TaskCourseDto;
+import com.user.dto.TaskDto;
 import com.user.dto.UserAllTask;
 import com.user.dto.UserDto;
+import com.user.dto.UserDtoReport;
 import com.user.entity.User;
 import com.user.entity.UserRole;
 import com.user.exception.AdminGetTaskException;
@@ -117,6 +119,24 @@ public class UserServiceimpl implements UserService{
 		
 		return list.stream().filter((u)->u.getRole().equals(UserRole.MENTOR))
 					.collect(Collectors.toList());
+	}
+
+
+	@Override
+	public List<UserDtoReport> getAllMentorsWithReport() {
+		List<UserDto> list = getAllMentors();
+		List<UserDtoReport> report = list.stream().map(UserMapper::userDtoToUserDtoReport).collect(Collectors.toList());
+		for(UserDtoReport u:report) {
+			TaskDto[] taskCourse= restTemplate.getForEntity("http://localhost:8083/api/task/all/"+u.getUserId(), TaskDto[].class).getBody();
+			
+			u.setTasks(taskCourse.length);
+			int totalhours=0;
+			for(TaskDto task :taskCourse) {
+				totalhours+=task.getHoursADay().getHour();
+			}
+			u.setHours(totalhours);
+		}
+		return report;
 	}
 
 

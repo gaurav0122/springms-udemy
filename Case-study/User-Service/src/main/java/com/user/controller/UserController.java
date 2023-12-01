@@ -21,6 +21,7 @@ import com.user.dto.PostUserDto;
 import com.user.dto.SignInUser;
 import com.user.dto.UserAllTask;
 import com.user.dto.UserDto;
+import com.user.dto.UserDtoReport;
 import com.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -66,6 +67,13 @@ public class UserController {
 	public  ResponseEntity<List<UserDto>> getAllMentors() {
 		logger.info("Get all users method invoked");
 		return new ResponseEntity<>(userService.getAllMentors(),HttpStatus.OK);
+	}
+	
+
+	@GetMapping("/all/mentor/report")
+	public  ResponseEntity<List<UserDtoReport>> getAllMentorsWithReport() {
+		logger.info("Get all users method invoked");
+		return new ResponseEntity<>(userService.getAllMentorsWithReport(),HttpStatus.OK);
 	}
 	
 	

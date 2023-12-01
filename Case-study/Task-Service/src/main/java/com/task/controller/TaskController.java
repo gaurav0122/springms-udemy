@@ -49,4 +49,14 @@ public ResponseEntity<List<TaskCourseDto>> getAllTaskByUserId(@PathVariable int 
 		return new ResponseEntity<>(savedTask,HttpStatus.OK);
 		
 	}
+	
+
+	@GetMapping("/all/report/{userId}")
+	public ResponseEntity<List<TaskDto>> getAllTaskByUserIdReport(@PathVariable int userId) {
+		
+		List<TaskDto> savedTask = taskService.getTaskListByUserIdReport(userId);
+		
+		return new ResponseEntity<>(savedTask,HttpStatus.OK);
+		
+	}
 }

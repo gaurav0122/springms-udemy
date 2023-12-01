@@ -10,6 +10,8 @@ public interface TaskService {
 	TaskDto addTask(TaskDto taskDto);
 	
 	List<TaskCourseDto> getTaskListByUserId(int userId);
+
+	List<TaskDto> getTaskListByUserIdReport(int userId);
 	
 	
 }
