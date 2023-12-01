@@ -8,13 +8,15 @@ import { SignInComponent } from './Components/sign-in/sign-in.component';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MentorDetailsComponent } from './Components/mentor-details/mentor-details.component';
+import { AddMentorComponent } from './Components/add-mentor/add-mentor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignInComponent,
     DashboardComponent,
-    MentorDetailsComponent
+    MentorDetailsComponent,
+    AddMentorComponent
   ],
   imports: [
     BrowserModule,

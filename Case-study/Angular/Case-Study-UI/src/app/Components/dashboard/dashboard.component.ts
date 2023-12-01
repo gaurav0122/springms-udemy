@@ -29,8 +29,11 @@ export class DashboardComponent {
 
   viewDetails(userid){
     console.log(userid);
-    this.router.navigateByUrl("mentordeatils/"+userid);
+    this.router.navigateByUrl("/mentordeatils/"+userid);
   }
 
+  addMentor(){
+    this.router.navigateByUrl("/addmentor");
+  }
 }
 

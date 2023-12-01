@@ -27,7 +27,7 @@ export class SignInComponent {
     console.log(this.loginForm.value.password);
     console.log(this.loginForm.value.role);
     
-    let user:SignInUser;
+    
     let email= this.loginForm.value.emailId;
     let password= this.loginForm.value.password;
     let role= this.loginForm.value.role;

@@ -1,0 +1,18 @@
+<div style="padding: 20px; text-align: center;">
+    <h1>Add mentor</h1>
+    <form [formGroup]="addMentorForm"  (ngSubmit)="addMentorMethod()" >
+        <div class="container">   
+            <br />
+            <label  class="form-label" >Name  : </label>   
+            <input class="form-control" type="text" placeholder="Enter your name" name="username" formControlName="name" required>  
+            <br />
+            <label  class="form-label" >Email  : </label>   
+            <input class="form-control" type="text" placeholder="Enter email id" name="username" formControlName="emailId" required>  
+            <br />
+            <label class="form-label" >Password : </label>   
+            <input class="form-control" type="password" placeholder="Enter Password" name="password" formControlName="password" required>  
+            <br />
+            <button class="btn btn-primary" type="submit">Add Mentor</button>      
+        </div>   
+    </form>    
+</div>
