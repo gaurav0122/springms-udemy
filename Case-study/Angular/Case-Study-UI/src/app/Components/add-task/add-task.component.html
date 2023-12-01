@@ -1,0 +1,29 @@
+
+
+<div style="padding: 20px; text-align: center;">
+    <div style="padding-left: 30%;padding-right: 30%;">
+    <h1>Add Task to mentor</h1>
+    <form [formGroup]="addTaskForm"  (ngSubmit)="addTaskMethod()" >
+        <div class="container">   
+            <br />
+            <label  class="form-label" >CourseId  : </label>   
+            <input class="form-control" type="number" placeholder="Enter your name" name="username" formControlName="courseId" required>  
+            <br />
+            <label  class="form-label" >MentorId  : </label>   
+            <input class="form-control" type="number" placeholder="Enter your name" name="username" formControlName="mentorId" required>  
+            <br />
+            <label  class="form-label" >StartDate  : </label>   
+            <input class="form-control" type="text" placeholder="Enter your name" name="username" formControlName="startdate" required>  
+            <br />
+            <label  class="form-label" >EndDate  : </label>   
+            <input class="form-control" type="text" placeholder="Enter email id" name="username" formControlName="endDate" required>  
+            <br />
+            <label class="form-label" >Hours a day : </label>   
+            <input class="form-control" type="password" placeholder="Enter Password" name="password" formControlName="hoursADay" required>  
+            <br />
+            <button class="btn btn-primary" type="submit">Add Task</button>      
+        </div>   
+    </form>    
+    
+</div>
+</div>

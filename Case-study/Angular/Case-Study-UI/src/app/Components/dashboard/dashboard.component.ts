@@ -35,5 +35,9 @@ export class DashboardComponent {
   addMentor(){
     this.router.navigateByUrl("/addmentor");
   }
+
+  addTask(){
+    this.router.navigateByUrl("/addtask");
+  }
 }
 

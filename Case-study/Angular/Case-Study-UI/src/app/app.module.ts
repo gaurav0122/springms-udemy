@@ -9,6 +9,7 @@ import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MentorDetailsComponent } from './Components/mentor-details/mentor-details.component';
 import { AddMentorComponent } from './Components/add-mentor/add-mentor.component';
+import { AddTaskComponent } from './Components/add-task/add-task.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AddMentorComponent } from './Components/add-mentor/add-mentor.component
     SignInComponent,
     DashboardComponent,
     MentorDetailsComponent,
-    AddMentorComponent
+    AddMentorComponent,
+    AddTaskComponent
   ],
   imports: [
     BrowserModule,

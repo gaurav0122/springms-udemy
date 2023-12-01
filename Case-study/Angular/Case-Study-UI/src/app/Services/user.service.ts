@@ -10,11 +10,15 @@ export class UserService {
   getAllTaskByUserIdApi:string;
   getAllCoursesApi:string;
   postMentorApi:string;
+  addTaskApi:string;
+
+
   constructor(private http: HttpClient) { 
     this.getAllMentorsApi="http://localhost:8081/api/user/all/mentor";
     this.getAllTaskByUserIdApi="http://localhost:8081/api/user/task/all/";
     this.getAllCoursesApi="http://localhost:8082/api/course/all";
     this.postMentorApi="http://localhost:8081/api/user";
+    this.addTaskApi="http://localhost:8083/api/task/";
   }
 
   getAllMentors() {
@@ -32,5 +36,7 @@ export class UserService {
   postMentor(user:any){
     return this.http.post(this.postMentorApi,user);
   }
-
+  addTask(userid,courseId,data:any){
+    return this.http.post(this.addTaskApi+userid+"/"+courseId,data);
+  }
 }
