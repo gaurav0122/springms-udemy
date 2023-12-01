@@ -23,6 +23,8 @@ import com.user.dto.UserAllTask;
 import com.user.dto.UserDto;
 import com.user.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin(origins = "http://localhost:4200/")
@@ -34,7 +36,7 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping
-	public ResponseEntity<UserDto> postUser(@RequestBody PostUserDto userDto) {
+	public ResponseEntity<UserDto> postUser(@Valid @RequestBody PostUserDto userDto) {
 		
 		UserDto saveduser = userService.save(userDto);
 		
