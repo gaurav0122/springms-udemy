@@ -25,4 +25,6 @@ public interface UserService {
 	public List<UserAllTask> getAllTaskForAllMentors();
 
 	public String signin(SignInUser signInUser);
+
+	public List<UserDto> getAllMentors();
 }

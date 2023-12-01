@@ -98,16 +98,25 @@ public class UserServiceimpl implements UserService{
 
 	@Override
 	public String signin(SignInUser signInUser) {
-		System.out.println(signInUser.getEmailId());
+		
 		User user = userRepository.findByEmailId(signInUser.getEmailId());
-		System.out.println(user);
+		
 		if(user==null) {
 			return "User Not Found With these email";
 		}
 		if(user.getRole().equals(signInUser.getRole()) && user.getPassword().equals(signInUser.getPassword()) && user.getEmailId().equals(signInUser.getEmailId())) {
 			return "true";
 		}
-		return "Invalid";
+		return "false";
+	}
+
+
+	@Override
+	public List<UserDto> getAllMentors() {
+		List<UserDto> list = getAllUser();
+		
+		return list.stream().filter((u)->u.getRole().equals(UserRole.MENTOR))
+					.collect(Collectors.toList());
 	}
 
 

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import com.user.service.UserService;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "http://localhost:4200/")
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -56,6 +58,12 @@ public class UserController {
 	public ResponseEntity<List<UserAllTask>> getAllTasksAssignedForAllMentors(){
 		List<UserAllTask> userAllTask = userService.getAllTaskForAllMentors();
 		return ResponseEntity.ok(userAllTask);
+	}
+	
+	@GetMapping("/all/mentor")
+	public  ResponseEntity<List<UserDto>> getAllMentors() {
+		logger.info("Get all users method invoked");
+		return new ResponseEntity<>(userService.getAllMentors(),HttpStatus.OK);
 	}
 	
 	
