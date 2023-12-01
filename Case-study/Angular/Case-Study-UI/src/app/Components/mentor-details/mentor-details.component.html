@@ -1,0 +1,18 @@
+<div style="padding: 20px;">
+    <div>
+        <h3>Name : {{tasks.name}}</h3>
+        <h4>Email : {{tasks.emailId}}</h4>
+    </div>
+
+    <div *ngFor="let task of tasks.tasks">
+        <div class="card" style="width: 25rem;">
+            <div class="card-body">
+                <h5 class="card-title">Course name: {{task.courseDto.coursename}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Course Duration : {{task.courseDto.coursetime}}</h6>
+                <p class="card-text">Start date: {{task.startdate}}</p>
+                <p class="card-text">End date: {{task.endDate}} </p>
+                <p class="card-text">Hours a Day: {{task.hoursADay}}</p>
+            </div>
+        </div>
+    </div>
+</div>

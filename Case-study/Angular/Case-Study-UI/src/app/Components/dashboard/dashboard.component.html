@@ -1,1 +1,59 @@
-<p>dashboard works!</p>
+
+
+<div style="padding: 10px;">
+    <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary">Add Mentor</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary">Add Course</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary">Enroll Course</button>
+    </div>
+
+    <div style="padding-top: 20px; padding-left: 3%;">
+        <h3>List Of Mentors</h3>
+        <div style="width: 50%;">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let u of user">
+                <th scope="row">{{u.userId}}</th>
+                <td>{{u.name}}</td>
+                <td>{{u.emailId}}</td>
+                <td> <button  class="btn btn-secondary" (click)="viewDetails(u.userId)">View Details</button> </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <br />
+        <br />
+        <h3>List Of Courses</h3>
+        <div style="width: 50%;">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">CourseName</th>
+                <th scope="col">CourseDuration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of courses">
+                <th scope="row">{{c.courseId}}</th>
+                <td>{{c.coursename}}</td>
+                <td>{{c.coursetime}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+
+</div>

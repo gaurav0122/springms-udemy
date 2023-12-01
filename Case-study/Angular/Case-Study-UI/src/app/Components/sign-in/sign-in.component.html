@@ -1,1 +1,19 @@
-<p>sign-in works!</p>
+<h1 style="text-align: center;">Login Form </h1> 
+<div style="padding-left: 25%;padding-right: 25%;">
+<form [formGroup]="loginForm"  (ngSubmit)="signUser()">  
+    <div class="container">   
+        <label > Sign In As: </label>
+        <input type="radio" id="ADMIN"  value="ADMIN" formControlName="role"/> <label for="ADMIN">ADMIN</label> 
+        &nbsp;&nbsp;&nbsp;
+        <input type="radio" id="MENTOR" value="MENTOR" formControlName="role"/> <label for="MENTOR">MENTOR</label> 
+        <br />
+        <br />
+        <label>Email  : </label>   
+        <input type="text" placeholder="Enter email id" name="username" formControlName="emailId" required>  
+        <label>Password : </label>   
+        <input type="password" placeholder="Enter Password" name="password" formControlName="password" required>  
+        <button type="submit">Login</button>       
+        Don't have account? <a href="#"> sign-up-as-admin </a>   
+    </div>   
+</form>     
+</div> 
